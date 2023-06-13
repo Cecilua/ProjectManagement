@@ -13,6 +13,23 @@
             $add_query = "INSERT INTO Item (task, project_id) VALUES ('$task', 1)";
             $add_result = mysqli_query($con, $add_query);
 			echo $add_result;
+
+            /* refresh the page */
+            header("Location: index.php");
+        }
+
+        /* delete task from the database */
+        if (isset($_GET['del_task'])) {
+            echo"yo";
+			$item_id = $_GET['del_task'];
+            echo"===>> $item_id";
+            
+            $delete_query = "DELETE FROM Item WHERE item_id=$item_id";
+            $delete_result = mysqli_query($con, $delete_query);
+            echo $delete_result;
+
+            /* refresh the page */
+            header("Location: index.php");
         }
 
 
@@ -27,6 +44,25 @@
     ?>
     <head>
         <title>CC's Project Management Tool!!</title>
+        
+        <!-- Place holder css -->
+        <style>
+            table {
+                font-family: arial, sans-serif;
+                border-collapse: collapse;
+                width: 100%;
+            }
+
+            td, th {
+                border: 1px solid #dddddd;
+                text-align: left;
+                padding: 8px;
+            }
+
+            tr:nth-child(even) {
+                background-color: #dddddd;
+            }
+        </style>
 
         <script>
             function handleOnClick(cb) {
@@ -48,7 +84,17 @@
             echo "<h2>" . $item['name'] . "</h2>";
 
             // print all items
-            echo "<br><ul>";
+            // open the table
+            echo "<br><table>";
+
+            // table headings 
+            echo "<tr>";
+            echo "<th>checkbox</th>";
+            echo "<th>task</th>";
+            echo "<th>status</th>";
+            echo "<th>delete</th>";
+            echo"</tr>";
+
             while ($item) {
                 $item_id = $item['item_id'];
                 $task = $item['task'];
@@ -58,12 +104,17 @@
                 // if item is done --> check the checkbox
                 $checked = ($is_done == 1) ? 'checked' : '';
 
-                // Print the list with the checkbox
-                echo "<li><label><input type='checkbox' id='".$item_id."' $checked onclick='handleOnClick(this)' >Task: " . $task . " Status: " . $task_status . "</label></li>";
+                // Print each row of the table
+                echo "<tr>";
+                echo "<td><input type='checkbox' id='".$item_id."' $checked onclick='handleOnClick(this)'></td>";
+                echo "<td>".$task."</td>";
+                echo "<td>".$task_status."</td>";
+                echo "<td><a href='index.php?del_task=".$item_id."'>delete</a></td>";
+                echo "</tr>";
 
                 $item = mysqli_fetch_assoc($all_item_result);
             }
-            echo "</ul>";
+            echo "</table>";
         ?>
     </body>
 </html>
