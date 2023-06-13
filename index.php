@@ -41,6 +41,13 @@
             LEFT JOIN Status ON Item.status_id = Status.status_id OR (Item.status_id IS NULL AND Status.status_id IS NULL)
             WHERE Item.project_id = 1";
         $all_item_result = mysqli_query($con, $all_item_query);
+
+
+        /* query all statuses */
+        $all_status_query = "SELECT Status.* From Status";
+        $all_status_result = mysqli_query($con, $all_status_query);
+
+
     ?>
     <head>
         <title>CC's Project Management Tool!!</title>
@@ -62,6 +69,12 @@
             tr:nth-child(even) {
                 background-color: #dddddd;
             }
+
+            
+            /* test */  
+            table p {
+                color: red; 
+            }
         </style>
 
         <!-- import Jquery -->
@@ -72,6 +85,7 @@
         
         
         <script>
+            // function when checkbox is clicked
             function handleOnClick(cb) {
                 //console.log(cb.id);
                 //console.log(cb.checked);
@@ -95,6 +109,26 @@
                     }
                 });
             }
+
+            function handleOnChange(sel) {
+                console.log(sel.id);
+                console.log(sel.value);
+                
+
+                // make a query
+                query = "UPDATE Item SET status_id=" + sel.value + " WHERE item_id=" + sel.id;
+
+                // post the query to update_item.php
+                $.ajax({
+                    type: "POST",
+                    url: "update_item.php",
+                    data: query,
+                    success: function (data) {
+                        console.log(data);
+                    }
+                });
+            }
+
 
         </script>
     </head>
@@ -124,9 +158,11 @@
             echo"</tr>";
 
             while ($item) {
+                // later should add consistency to these variables...
                 $item_id = $item['item_id'];
                 $task = $item['task'];
                 $task_status = $item['status'];
+                $task_status_id = $item['status_id'];
                 $is_done = $item['is_done'];
 
                 // if item is done --> check the checkbox
@@ -136,11 +172,49 @@
                 echo "<tr>";
                 echo "<td><input type='checkbox' id='".$item_id."' $checked onclick='handleOnClick(this)'></td>";
                 echo "<td>".$task."</td>";
-                echo "<td>".$task_status."</td>";
+                
+                
+
+                // print the status
+                echo "<td>";
+                // make a select form --> on change run the javascript function
+                echo "<select id='$item_id' onchange='handleOnChange(this)'>";
+                
+                
+                // the tasks status is the default/top option 
+                echo "<option value=''>".$task_status."</option>";
+
+                // loop through the statuses
+                
+                while ($status = mysqli_fetch_array($all_status_result)) {
+                    $status_id = $status['status_id'];
+                    $status_name = $status['status'];
+
+                    // if the status is not the current tasks status
+                    if($task_status_id != $status_id) {
+                       // display the status as an option in dropdown
+                        echo "<option value='$status_id'>$status_name</option>";
+                    }
+                }
+                
+                // reset the result pointer to allow the loop to run again
+                $status = mysqli_data_seek($all_status_result, 0);
+                    
+                // close the dropdown
+                echo "</select></td>";
+                
+                // delete task button
                 echo "<td><a href='index.php?del_task=".$item_id."'>delete</a></td>";
                 echo "</tr>";
 
+                
+                
+
+                
+                // avoid infinite loop
                 $item = mysqli_fetch_assoc($all_item_result);
+                
+
             }
             echo "</table>";
         ?>
