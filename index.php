@@ -64,16 +64,44 @@
             }
         </style>
 
+        <!-- import Jquery -->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+        
+        
+        
+        
+        
         <script>
             function handleOnClick(cb) {
-                console.log(cb.id);
-                console.log(cb.checked);
+                //console.log(cb.id);
+                //console.log(cb.checked);
+
+                if (cb.checked == true) {
+                    checked = 1; 
+                } else {
+                    checked = 0;
+                }
+
+                // make a query
+                query = "UPDATE Item SET is_done= " + checked + " WHERE item_id=" + cb.id;
+
+                // post the query to update_item.php
+                $.ajax({
+                    type: "POST",
+                    url: "update_item.php",
+                    data: query,
+                    success: function (data) {
+                        console.log(data);
+                    }
+                });
             }
+
         </script>
     </head>
     <body>
         <h1>CC's Project Management Tool!!</h1>
 
+        <!-- add a task -->
         <form method="POST" action="index.php">
             <input type="text" name="task">
             <button type="submit">add</button>
