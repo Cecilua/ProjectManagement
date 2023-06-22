@@ -1,7 +1,14 @@
 <!DOCTYPE html>
 <html lang='en'>
     <?php
-        /* connect to the database */
+        // start a session 
+        session_start(); 
+
+        if(!isset($_SESSION['logged_in']) or $_SESSION['logged_in'] != true){
+            header('Location: error_page.php');
+        } 
+       
+       /* connect to the database */
         include 'connection.php';
 
         /* query all items */
@@ -29,6 +36,8 @@
                 $.post("update_item.php", query, function(data) {
                     console.log(data);
                 });
+
+                return "success";
             }
             
             // function when checkbox is clicked
@@ -47,7 +56,7 @@
                 query = "UPDATE Item SET is_done= " + checked + " WHERE item_id=" + cb.id;
 
                 // post the query to update_item.php
-                await postUpdate(query);
+                await postUpdate(query) == "success";
 
                 // refresh the page
                 await window.location.reload();
@@ -61,7 +70,7 @@
                 query = "UPDATE Item SET status_id=" + sel.value + " WHERE item_id=" + sel.id;
 
                 // post the query to update_item.php
-                await postUpdate(query);
+                await postUpdate(query) == "success";
 
                 // refresh the page
                 await window.location.reload();
@@ -70,11 +79,13 @@
     </head>
     <body>
         <h1>CC's Project Management Tool!!</h1>
+        <a href = 'login.php'>login page</a>
+        <a href = 'process_logout.php'>logout</a>
 
         <!-- add a task form -->
         <h2>Add a Task: </h2>
         <form method="POST" action="insert_item.php">
-            <input type="text" name="task">
+            <input type="text" name="task" placeholder="new task:">
             <button type="submit">add task</button>
         </form>
 
