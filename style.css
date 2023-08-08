@@ -1,97 +1,19 @@
-/* --------------------
-   General Styles
-   --------------------*/
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-p {
-    color: white;
-}
-a {
-    color: crimson;
-}
-/* --------------------
-    Computer Screen
--------------------- */
-.background {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    width: 100vw;
-    height: 100vh;
-    background-color: pink;
-    border: 3px solid black;
-}
-.webcam {
-    display: flex;
-    width: 20px;
-    height: 20px;
-    background-color: black;
-}
-.screen {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    width: 80vw; 
-    height: 80vh;
-    background-color: blue;
-    border: 3px solid black;
-    margin: 2.5% 0;
-}
-/* --------------------
-    Welcome Page
--------------------- */
-.welcome-menu {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    width: 30%;
-    height: 50%;
-}
-.welcome-menu a {
-    display: flex;
-    justify-content: center;
-    align-items: center;
+/* ---------------------
+   placeholder styles
+   ---------------------*/
+
+table {
+    font-family: arial, sans-serif;
+    border-collapse: collapse;
     width: 100%;
-    height: 22%; 
-    margin-bottom: 20px;
-    background-color: crimson;
 }
-.welcome-menu a:hover {
-    background-color: pink;
+
+td, th {
+    border: 1px solid #dddddd;
+    text-align: left;
+    padding: 8px;
 }
-/* --------------------
-   Login/Signup Page
--------------------- */ 
-.user-form {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-    height: 80vh;
-    gap: 20px;
-}
-.user-form .profile-picture {
-    width: 15vw;
-    height: 15vw;
-    background-color: lightgray;
-}
-.user-form input[type="text"], input[type="password"]{
-    width: 25vw;
-    height: 45px;
-    padding-left: 10px;
-    background-color: pink;
-    margin-bottom: 2.5%
-}
-.user-form input[type="submit"] {
-    width: 15vw;
-    height: 45px;
-    background-color: crimson;
-    margin-top: 2.5%;
+
+tr:nth-child(even) {
+    background-color: #dddddd;
 }

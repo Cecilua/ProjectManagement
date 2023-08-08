@@ -12,10 +12,10 @@
         include 'connection.php';
 
         /* query all items */
-        $all_item_query = "SELECT Item.*, Status.*, Project.* FROM Item
-            JOIN Project ON Item.project_id = Project.project_id 
-            LEFT JOIN Status ON Item.status_id = Status.status_id OR (Item.status_id IS NULL AND Status.status_id IS NULL)
-            WHERE Item.project_id = 1";
+        $all_item_query = "SELECT Task.*, Status.*, Project.* FROM Task
+            JOIN Project ON Task.project_id = Project.project_id 
+            LEFT JOIN Status ON Task.status_id = Status.status_id OR (Task.status_id IS NULL AND Status.status_id IS NULL)
+            WHERE Task.project_id = 1";
         $all_item_result = mysqli_query($con, $all_item_query);
 
 
@@ -53,7 +53,7 @@
                 }
 
                 // make a query
-                query = "UPDATE Item SET is_done= " + checked + " WHERE item_id=" + cb.id;
+                query = "UPDATE Task SET is_done= " + checked + " WHERE task_id=" + cb.id;
 
                 // post the query to update_item.php
                 await postUpdate(query) == "success";
@@ -67,7 +67,7 @@
                 console.log(sel.value); // value of the option element == status_id
                 
                 // make a query
-                query = "UPDATE Item SET status_id=" + sel.value + " WHERE item_id=" + sel.id;
+                query = "UPDATE Task SET status_id=" + sel.value + " WHERE task_id=" + sel.id;
 
                 // post the query to update_item.php
                 await postUpdate(query) == "success";
@@ -84,7 +84,7 @@
 
         <!-- add a task form -->
         <h2>Add a Task: </h2>
-        <form method="POST" action="insert_item.php">
+        <form method="POST" action="insert_task.php">
             <input type="text" name="task" placeholder="new task:">
             <button type="submit">add task</button>
         </form>
@@ -111,7 +111,7 @@
 
             /* loop through items */
             while ($item) {
-                $item_id = $item['item_id']; // get the item id
+                $item_id = $item['task_id']; // get the item id
                 $task = $item['task']; // get the task name 
                 
                 $item_status_id = $item['status_id']; // get the status id
@@ -169,7 +169,7 @@
                 echo "</select></td>";
                 
                 /* delete task button */
-                echo "<td><a href='delete_item.php?del_task=".$item_id."'>delete</a></td>";
+                echo "<td><a href='delete_task.php?del_task=".$item_id."'>delete</a></td>";
                 echo "</tr>";
 
                 /* avoid infinite loop */

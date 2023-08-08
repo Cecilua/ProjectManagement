@@ -13,7 +13,7 @@
         
         <p>some message explaining what the website is about</p>
         
-        <p><a href="login.php">please login to acess the site ^^</a></p>
+        <p><a href="login.php">please login</a> or <a href="sign_up.php">sign up</a> to access the site</p>
 
     </body>
 </html>
