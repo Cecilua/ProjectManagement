@@ -13,7 +13,7 @@
         $pass = trim($_POST['password']);
 		
 		/* make the query */
-    	$login_query = "SELECT password FROM User WHERE username='$user'";
+    	$login_query = "SELECT * FROM User WHERE username='$user'";
         $login_result = mysqli_query($con, $login_query);
 
         /* check if the query was successful */
@@ -28,7 +28,17 @@
                 $verify = password_verify($pass, $hash);
                 if($verify){
                     echo "logged in successfully";
+                    
+                    
                     $_SESSION['logged_in'] = true;
+
+                    $_SESSION['user_id'] = $login_record['user_id'];
+
+                    
+                    
+                    echo $login_record['user_id'];
+
+
                     header("Location: index.php");
                 } else {
                     echo "incorrect username or password";

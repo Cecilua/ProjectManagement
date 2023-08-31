@@ -4,6 +4,11 @@
         // start a session 
         session_start(); 
 
+        $id = $_SESSION['user_id'];
+
+
+
+
         if(!isset($_SESSION['logged_in']) or $_SESSION['logged_in'] != true){
             header('Location: error_page.php');
         } 
@@ -11,11 +16,19 @@
        /* connect to the database */
         include 'connection.php';
 
+
+        
+
+        echo $id; 
+
+
+
         /* query all items */
-        $all_item_query = "SELECT Task.*, Status.*, Project.* FROM Task
-            JOIN Project ON Task.project_id = Project.project_id 
-            LEFT JOIN Status ON Task.status_id = Status.status_id OR (Task.status_id IS NULL AND Status.status_id IS NULL)
-            WHERE Task.project_id = 1";
+        $all_item_query = "SELECT Project.*, Status.*, Task.* FROM User
+        JOIN Project ON Project.user_id = User.user_id
+        JOIN Task ON Project.project_id = Task.project_id
+        JOIN Status ON Task.status_id = Status.status_id
+        WHERE User.user_id = ".$id;
         $all_item_result = mysqli_query($con, $all_item_query);
 
 
