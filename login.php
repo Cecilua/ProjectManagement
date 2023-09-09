@@ -1,26 +1,36 @@
-<!DOCTYPE html>
-<html lang = 'en'>
+<DOCTYPE html>
+    <html lang="en">
     <?php    
         /* connect to database */
         include 'connection.php';
     ?>
     <head>
-        <link href="style.css" rel="stylesheet" type="text/css"/>
-        <title>CC's Project Management Tool!!</title>
+        <title>CC's Cradle</title>
+        <link href="style.css" rel="stylesheet" type="text/css" />
     </head>
     <body>
-        <h2>Login Page</h2>
-        <a href="index.php">home</a><br><br>
-        <!-- Login Form -->
-        <form name="login_form" id="login_form" method="post" action="process_login.php">
-            <label for='username'>username: </label>
-            <input type="text" name="username" placeholder="username"><br>
-
-            <label for="password">password: </label>
-            <input type="password" name="password" placeholder="password"><br>
-
-            <input type="submit" name="submit" id="submit" value="Login">
-        </form>
-
+        <div class="background">
+            <div class="webcam"></div>
+            <div class="screen">
+                <!-- Login Form -->
+                <div class="user-form">
+                    <div class="profile-picture"></div>
+                    <h1>Login</h1>
+                    <form name="login_form" id="login_form" method="post" action="process_login.php">
+                        <!-- do i need labels? -->
+                        <label for='username'>username: </label>
+                        <input type="text" name="username" placeholder="username"><br>
+                    
+                        <label for="password">password: </label>
+                        <input type="password" name="password" placeholder="password"><br>
+                    
+                        <input type="submit" name="submit" id="submit" value="Login">
+                    </form>
+                    <p>don't have an account? <a href="signup.html">sign up here</a></p>
+                    <!-- add go back button in future? -->
+                    <a href="welcome.php">go back</a>
+                </div>
+            </div>
+        </div>
     </body>
-</html>
+    </html>

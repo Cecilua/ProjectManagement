@@ -4,33 +4,39 @@
         // start a session 
         session_start(); 
 
-        $id = $_SESSION['user_id'];
+        $user_id = $_SESSION['user_id'];
 
 
 
 
         if(!isset($_SESSION['logged_in']) or $_SESSION['logged_in'] != true){
-            header('Location: error_page.php');
+            header('Location: welcome.php');
         } 
        
        /* connect to the database */
         include 'connection.php';
 
-
+        /* ---------------------------------------------------------------------------------
+            learnt how to use prepared statements here: 
+            https://stackoverflow.com/questions/60174/how-can-i-prevent-sql-injection-in-php 
+        --------------------------------------------------------------------------------- */
         
+        /* all projects query */ 
+        $all_projects_query = "SELECT Project.* FROM Project WHERE Project.user_id = ?";
 
-        echo $id; 
+        $all_projects = $con->prepare($all_projects_query);
+        $all_projects->bind_param('i', $user_id);
+        $all_projects->execute();
+        $all_projects_result = $all_projects->get_result();
+        $project = mysqli_fetch_assoc($all_projects_result); 
 
+        /* all tasks query */ 
+        $all_tasks_query = "SELECT Task.*, Status.* FROM Task JOIN Status ON Status.status_id = Task.status_id WHERE Task.project_id = ?";
 
-
-        /* query all items */
-        $all_item_query = "SELECT Project.*, Status.*, Task.* FROM User
-        JOIN Project ON Project.user_id = User.user_id
-        JOIN Task ON Project.project_id = Task.project_id
-        JOIN Status ON Task.status_id = Status.status_id
-        WHERE User.user_id = ".$id;
-        $all_item_result = mysqli_query($con, $all_item_query);
-
+        $all_tasks = $con->prepare($all_tasks_query);
+        $all_tasks->bind_param('i', $project['project_id']);
+        $all_tasks->execute();
+        $all_tasks_result = $all_tasks->get_result();
 
         /* query all statuses */
         $all_status_query = "SELECT Status.* From Status";
@@ -44,17 +50,8 @@
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
         
         <script>
-            // take a query -- and post it to update_item.php
-            function postUpdate(qry){
-                $.post("update_item.php", query, function(data) {
-                    console.log(data);
-                });
-
-                return "success";
-            }
-            
             // function when checkbox is clicked
-            async function handleOnClick(cb) {
+            function handleOnClick(cb) {
                 console.log(cb.id); // checkbox id == item_id
                 console.log(cb.checked); // if checkbox is checked
 
@@ -64,80 +61,90 @@
                 } else {
                     checked = 0;
                 }
-
-                // make a query
-                query = "UPDATE Task SET is_done= " + checked + " WHERE task_id=" + cb.id;
-
-                // post the query to update_item.php
-                await postUpdate(query) == "success";
-
-                // refresh the page
-                await window.location.reload();
+                
+                // post to update_checkbox.php
+                $.post("update_checkbox.php", {is_done: checked, task_id: cb.id}, function(){
+                    console.log("success");
+                    // refresh the page
+                    window.location.reload();
+                });
             }
 
             async function handleOnChange(sel) {
                 console.log(sel.id); // id of the select element == item_id
                 console.log(sel.value); // value of the option element == status_id
                 
-                // make a query
-                query = "UPDATE Task SET status_id=" + sel.value + " WHERE task_id=" + sel.id;
-
-                // post the query to update_item.php
-                await postUpdate(query) == "success";
-
-                // refresh the page
-                await window.location.reload();
+				// post to update_status.php
+                $.post("update_status.php", {status_id: sel.value, task_id: sel.id}, function(){
+                    console.log("success");
+					// refresh the page
+					window.location.reload();
+                }); 
             }
+
         </script>
     </head>
     <body>
-        <h1>CC's Project Management Tool!!</h1>
-        <a href = 'login.php'>login page</a>
-        <a href = 'process_logout.php'>logout</a>
+        <!-- navbar -->
+        <div class = "navbar">
+            <!-- first one shouldn't rlly link to anything -->
+            <a>ccs cradle</a> 
+            <a>my projects</a>
+            <a href='process_logout.php'>log out</a>
+        </div>
 
-        <!-- add a task form -->
-        <h2>Add a Task: </h2>
-        <form method="POST" action="insert_task.php">
-            <input type="text" name="task" placeholder="new task:">
-            <button type="submit">add task</button>
-        </form>
-
-        <?php
-            $item = mysqli_fetch_assoc($all_item_result);
+        <?php 
             /* print project name */
-            echo "<h2>" . $item['name'] . "</h2>";
+            echo "<h2>" . $project['name'] . "</h2>";
+        ?>
 
-            /* ---------------------
-               print all items
-            ---------------------*/
+        <div class = "table-container">
+           	
+			<?php echo $project['project_id']; ?>
+			
+            <!-- add task form -->
+            <div class="add-task-form">
+                <form method="POST" action="insert_task.php">
+                    <label for='task'>add task:</label>
+                    <input type="text" name="task" placeholder="new task:">
+					<?php 
+						echo  "<input type='hidden' name='project_id' value=".$project['project_id'].">"; 
+					?>
+                    <button type="submit">-></button>
+                </form>
+            </div> 
+
+            <?php 
+                /* ---------------------
+                    print all items
+                ---------------------*/
             
             /* open table */
-            echo "<br><table>";
+            echo "<div class = 'table-row table-header'>";
 
             /* table headings */
-            echo "<tr>";
-            echo "<th>checkbox</th>";
-            echo "<th>task</th>";
-            echo "<th>status</th>";
-            echo "<th>delete</th>";
-            echo"</tr>";
+            echo "<div class = 'row-item'>checkbox</div>";
+            echo "<div class = 'row-item'>task</div>";
+            echo "<div class = 'row-item'>status</div>";
+            echo "<div class = 'row-item'>delete</div>";
+            echo"</div>";
 
-            /* loop through items */
-            while ($item) {
-                $item_id = $item['task_id']; // get the item id
-                $task = $item['task']; // get the task name 
+            /* loop through tasks */
+            while ($task = mysqli_fetch_assoc($all_tasks_result)) {
+                $task_id = $task['task_id']; // get the item id
+                $task_name = $task['task']; // get the task name 
                 
-                $item_status_id = $item['status_id']; // get the status id
-                $item_status = $item['status']; // get the status name 
+                $task_status_id = $task['status_id']; // get the status id
+                $task_status = $task['status']; // get the status name 
                 
-                $is_done = $item['is_done']; // get the checkbox status
+                $is_done = $task['is_done']; // get the checkbox status
                 
                 
                 /* test changing css based on status */
-                $style_test = "";
+                $status_color = "#fff";
                 /* if the status is ongoing --> change cell color */ 
-                if ($item_status_id == 0){
-                    $style_test = "bgcolor='#a5d7e8'";
+                if ($task_status_id == 0){
+                    $status_color = '#a5d7e8';
                 }
                 
                 
@@ -145,22 +152,21 @@
                 $checked = ($is_done == 1) ? 'checked' : '';
 
                 /* Print each row of the table */
-                echo "<tr>";
-                echo "<td><input type='checkbox' id='".$item_id."' $checked onclick='handleOnClick(this)'></td>"; // checkbox
-                echo "<td ".$style_test.">".$task."</td>"; // task
+                echo "<div class='table-row'>";
+                echo "<div class='row-item'><input type='checkbox' id='".$task_id."' $checked onclick='handleOnClick(this)'></div>"; // checkbox
+                echo "<div class='row-item' style='background-color: ".$status_color."'>".$task_name."</div>"; // task
                 
-
 
                 /* ---------------------
                    status dropdown
                 ---------------------*/
                 
-                echo "<td>";
+                echo "<div class = 'row-item'>";
                 /* make a select list within the table */
-                echo "<select id='$item_id' onchange='handleOnChange(this)'>"; // on change --> run handleOnChange function
+                echo "<select id='$task_id' onchange='handleOnChange(this)'>"; // on change --> run handleOnChange function
                 
                 /* the tasks status is the default/top option */
-                echo "<option value=''>".$item_status."</option>";
+                echo "<option value=''>".$task_status."</option>";
 
                 /* loop through the statuses */
                 while ($status = mysqli_fetch_array($all_status_result)) {
@@ -170,27 +176,28 @@
                     /* if the status is not the current tasks status 
                      * --> display the status as an option in dropdown
                      */
-                    if($item_status_id != $status_id) {
+                    if($task_status_id != $status_id) {
                         echo "<option value='$status_id'>$status_name</option>";
                     }
                 }
                 
-                /* reset the result pointer to allow the loop to run more than once */
+                /* 
+                    reset the result pointer to allow the loop to run more than once 
+                    learnt this from Quentin on StackOverflow: 
+                    https://stackoverflow.com/questions/47435708/why-i-cant-display-same-result-twice-using-mysqli-fetch-assoc
+                */
                 $status = mysqli_data_seek($all_status_result, 0);
-                    
-                /* close the dropdown */
-                echo "</select></td>";
                 
-                /* delete task button */
-                echo "<td><a href='delete_task.php?del_task=".$item_id."'>delete</a></td>";
-                echo "</tr>";
+                /* close the dropdown */
+                echo "</select></div>";
 
-                /* avoid infinite loop */
-                $item = mysqli_fetch_assoc($all_item_result);
+                /* delete task button */
+                echo "<div class = 'row-item'><a href='delete_task.php?del_task=".$task_id."'>delete</a></div>";
+                echo "</div>";
 
             }
-            /* close table */
-            echo "</table>";
-        ?>
+            ?>
+        </div>
+        <!-- overview class? -->
     </body>
 </html>
