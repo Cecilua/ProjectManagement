@@ -11,10 +11,14 @@
         /* get the inputted username and password */
         $user = trim($_POST['username']);
         $pass = trim($_POST['password']);
-		
-		/* make the query */
-    	$login_query = "SELECT * FROM User WHERE username='$user'";
-        $login_result = mysqli_query($con, $login_query);
+
+        /* login query */ 
+        $login_query = "SELECT * FROM User WHERE username=?";
+
+        $login = $con->prepare($login_query);
+        $login->bind_param('s', $user);
+        $login->execute();
+        $login_result = $login->get_result();
 
         /* check if the query was successful */
         if ($login_result) {
@@ -28,17 +32,10 @@
                 $verify = password_verify($pass, $hash);
                 if($verify){
                     echo "logged in successfully";
-                    
-                    
                     $_SESSION['logged_in'] = true;
-
                     $_SESSION['user_id'] = $login_record['user_id'];
-
-                    
-                    
                     echo $login_record['user_id'];
-
-
+                    
                     header("Location: index.php");
                 } else {
                     echo "incorrect username or password";
@@ -53,7 +50,4 @@
     } else {
         echo "please enter a username and password";
     }
-
-
-    
 ?>

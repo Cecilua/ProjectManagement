@@ -26,7 +26,7 @@
                     
                         <input type="submit" name="submit" id="submit" value="Login">
                     </form>
-                    <p>don't have an account? <a href="signup.html">sign up here</a></p>
+                    <p>don't have an account? <a href="signup.php">sign up here</a></p>
                     <!-- add go back button in future? -->
                     <a href="welcome.php">go back</a>
                 </div>

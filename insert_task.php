@@ -6,21 +6,18 @@
 
     /* get the task name */
     $task = $_POST['task'];
-    $project_id = $_POST['project_id'];
-	
-	echo "===>>> project_id".$project_id;
     
-    /* make the query (project_id is hardcoded for now) */
-    $insert_query = "INSERT INTO Task (task, project_id) VALUES ('$task', $project_id)";
+    /* get the project_id */
+    $project_id = $_POST['project_id'];
 
-    /* simple error checking */
-    if (!mysqli_query($con, $insert_query)) {
-
-            echo "error...";
-        } else {
-            echo "inserted";
-        }
+    /* insert task query */
+    $insert_query = "INSERT INTO Task (task, project_id) VALUES (?, ?)";
+    
+    $insert = $con->prepare($insert_query);
+    $insert->bind_param('si', $task, $project_id);
+    $insert->execute();
+    $insert_result = $insert->get_result();
 
     /* refresh the page */
-	header("Location: index.php?project_id=".$project_id);
+	header("Location: index.php");
 ?>

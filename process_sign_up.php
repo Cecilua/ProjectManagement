@@ -7,8 +7,15 @@
     /* check for duplicate username */
     function is_duplicate_username($username) {
         // query users with the same username
-        $username_query = "SELECT * FROM User WHERE username = '$username'";
         $username_result = mysqli_query($con, $username_query);
+
+        /* username query */ 
+        $username_query = "SELECT * FROM User WHERE username = ?";
+
+        $username = $con->prepare($username_query);
+        $username->bind_param('i', $user_id);
+        $username->execute();
+        $username_result = $username->get_result();
 
         if (mysqli_num_rows($username_result) > 0) {
             // If the username already exists, return true
@@ -18,10 +25,7 @@
         return false; 
     }
     
-    
-    
     /* check if the username and password are not empty */
-    
     if(!empty($_POST['username']) && !empty($_POST['password'])) {
         // get the username and password
         $user = $_POST['username'];
@@ -33,7 +37,15 @@
             /* encrypt the password */
             $encrypted_pass = password_hash($pass, PASSWORD_BCRYPT);
             
-            $add_user_query = "INSERT INTO User (username, password) VALUES ('$user', '$encrypted_pass')";
+            
+            /* username query */ 
+            $add_user_query = "INSERT INTO User (username, password) VALUES (?, ?)";
+
+
+            $add_user = $con->prepare($add_user_query);
+            $add_user->bind_param('ss', $user, $encrypted_pass);
+            $add_user->execute();
+            $add_user_result = $add_user->get_result();
 
 
             /* simple error checking */
@@ -54,7 +66,4 @@
     } else {
         echo "<script>alert('please enter a username and password');</script>";
     }
-
-        
-            
 ?>

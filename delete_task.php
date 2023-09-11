@@ -7,16 +7,13 @@
     /* get the item_id */
     $task_id = $_GET['del_task'];
     
-    /* make the query */
-    $delete_query = "DELETE FROM Task WHERE task_id=$task_id";
+    /* delete task query */
+    $delete_query = "DELETE FROM Task WHERE task_id=?";
 
-    /* simple error checking */
-    if (!mysqli_query($con, $delete_query)) {
-
-            echo "error...";
-        } else {
-            echo "deleted";
-        }
+    $delete = $con->prepare($delete_query);
+    $delete->bind_param('i', $task_id);
+    $delete->execute();
+    $delete_result = $delete->get_result();
 
     /* refresh the page */
     header('Location: index.php');

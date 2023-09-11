@@ -6,9 +6,6 @@
 
         $user_id = $_SESSION['user_id'];
 
-
-
-
         if(!isset($_SESSION['logged_in']) or $_SESSION['logged_in'] != true){
             header('Location: welcome.php');
         } 
@@ -139,14 +136,12 @@
                 
                 $is_done = $task['is_done']; // get the checkbox status
                 
-                
                 /* test changing css based on status */
                 $status_color = "#fff";
                 /* if the status is ongoing --> change cell color */ 
                 if ($task_status_id == 0){
                     $status_color = '#a5d7e8';
                 }
-                
                 
                 /* if item is done --> check the checkbox */
                 $checked = ($is_done == 1) ? 'checked' : '';
@@ -155,7 +150,6 @@
                 echo "<div class='table-row'>";
                 echo "<div class='row-item'><input type='checkbox' id='".$task_id."' $checked onclick='handleOnClick(this)'></div>"; // checkbox
                 echo "<div class='row-item' style='background-color: ".$status_color."'>".$task_name."</div>"; // task
-                
 
                 /* ---------------------
                    status dropdown
