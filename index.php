@@ -82,50 +82,34 @@
         </script>
     </head>
     <body>
+        <div class='main-background'>
         <!-- navbar -->
         <div class = "navbar">
-            <!-- first one shouldn't rlly link to anything -->
-            <a>ccs cradle</a> 
-            <a>my projects</a>
+            <div class = "project-name">
+                <?php 
+                    /* print project name */
+                    echo "<h2>" . $project['name'] . "</h2>";
+                ?>
+            </div>
             <a href='process_logout.php'>log out</a>
         </div>
-
-        <?php 
-            /* print project name */
-            echo "<h2>" . $project['name'] . "</h2>";
-        ?>
-
-        <div class = "table-container">
-           	
-			<?php echo $project['project_id']; ?>
-			
-            <!-- add task form -->
-            <div class="add-task-form">
-                <form method="POST" action="insert_task.php">
-                    <label for='task'>add task:</label>
-                    <input type="text" name="task" placeholder="new task:">
-					<?php 
-						echo  "<input type='hidden' name='project_id' value=".$project['project_id'].">"; 
-					?>
-                    <button type="submit">-></button>
+         <!-- add task form -->
+            <div class = 'add-form-center'>
+                <form method="POST" action="insert_task.php" class="add-task-form">
+                    <div class="form-element"><label for='task'>add task:</label></div>
+                    <input type="text" name="task">
+                    <?php 
+                        echo  "<input type='hidden' name='project_id' value=".$project['project_id'].">"; 
+                    ?>
+                    <div class="form-element"><button type="submit">-></button></div>
                 </form>
-            </div> 
-
+            </div>
+        <!-- open table -->
+        <div class = "table-container">
             <?php 
                 /* ---------------------
                     print all items
                 ---------------------*/
-            
-            /* open table */
-            echo "<div class = 'table-row table-header'>";
-
-            /* table headings */
-            echo "<div class = 'row-item'>checkbox</div>";
-            echo "<div class = 'row-item'>task</div>";
-            echo "<div class = 'row-item'>status</div>";
-            echo "<div class = 'row-item'>delete</div>";
-            echo"</div>";
-
             /* loop through tasks */
             while ($task = mysqli_fetch_assoc($all_tasks_result)) {
                 $task_id = $task['task_id']; // get the item id
@@ -149,7 +133,7 @@
                 /* Print each row of the table */
                 echo "<div class='table-row'>";
                 echo "<div class='row-item'><input type='checkbox' id='".$task_id."' $checked onclick='handleOnClick(this)'></div>"; // checkbox
-                echo "<div class='row-item' style='background-color: ".$status_color."'>".$task_name."</div>"; // task
+                echo "<div class='row-item task'>".$task_name."</div>"; // task
 
                 /* ---------------------
                    status dropdown
@@ -157,7 +141,7 @@
                 
                 echo "<div class = 'row-item'>";
                 /* make a select list within the table */
-                echo "<select id='$task_id' onchange='handleOnChange(this)'>"; // on change --> run handleOnChange function
+                echo "<select id='$task_id' onchange='handleOnChange(this)' style='background-color: ".$status_color."'>"; // on change --> run handleOnChange function
                 
                 /* the tasks status is the default/top option */
                 echo "<option value=''>".$task_status."</option>";
@@ -186,11 +170,12 @@
                 echo "</select></div>";
 
                 /* delete task button */
-                echo "<div class = 'row-item'><a href='delete_task.php?del_task=".$task_id."'>delete</a></div>";
+                echo "<div class = 'row-item'><a href='delete_task.php?del_task=".$task_id."'>X</a></div>";
                 echo "</div>";
 
             }
             ?>
+        </div>
         </div>
         <!-- overview class? -->
     </body>
