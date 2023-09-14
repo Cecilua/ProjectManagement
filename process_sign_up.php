@@ -9,10 +9,11 @@
     
     /* check for duplicate username */
     function is_duplicate_username($username) {
-        // query users with the same username
-        $username_result = mysqli_query($con, $username_query);
+        /* connect to the database */
+    	include 'connection.php';
 
-        /* username query */ 
+		
+		/* username query */ 
         $username_query = "SELECT * FROM User WHERE username = ?";
 
         $username = $con->prepare($username_query);
@@ -43,19 +44,29 @@
             /* username query */ 
             $add_user_query = "INSERT INTO User (username, password) VALUES (?, ?)";
 
-
             $add_user = $con->prepare($add_user_query);
             $add_user->bind_param('ss', $user, $encrypted_pass);
             $add_user->execute();
             $add_user_result = $add_user->get_result();
 
+            /* search for added user */ 
+            $get_user_query = "SELECT * FROM User WHERE User.username = ?";
 
-            /* simple error checking */
-            if (!mysqli_query($con, $add_user_query)) {
-                    echo "error...";
-                } else {
-                    echo "<script>alert('successfully signed up!!');</script>";
-                }
+            $get_user = $con->prepare($get_user_query);
+            $get_user->bind_param('s', $user);
+            $get_user->execute();
+            $get_user_result = $get_user->get_result();
+            $get_user_record = mysqli_fetch_assoc($get_user_result);
+
+            /* add a default project to user */
+            $project_name = $get_user_record['username']."'s Project";
+            
+            $add_project_query = "INSERT INTO Project (user_id, name) VALUES (?, ?)";
+
+            $add_project = $con->prepare($add_project_query);
+            $add_project->bind_param('is', $get_user_record['user_id'], $project_name);
+            $add_project->execute();
+            $add_project_result = $add_project->get_result();
 
             /* send to login page */
             header('Location: login.php');
@@ -64,4 +75,5 @@
         } else {
             $_SESSION['sign_up_error'] = 'username already exists. please choose another one';
         }
+    }
 ?>

@@ -32,7 +32,7 @@
                         <label for="password">password: </label>
                         <input type="password" name="password" placeholder="password" maxlength="256" required><br>
                     
-                        <input type="submit" name="submit" id="submit" value="Login">
+                        <input type="submit" name="submit" id="submit" value="Sign Up">
                     </form>
                     <p>have an account? <a href="login.php">login here</a></p>
                     <!-- add go back button in future? -->
