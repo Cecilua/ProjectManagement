@@ -82,13 +82,13 @@
         </script>
     </head>
     <body>
-        <div class='main-background'>
+    <div class='main-background'>
         <!-- navbar -->
         <div class = "navbar">
             <div class = "project-name">
                 <?php 
                     /* print project name */
-                    echo "<h2>" . $project['name'] . "</h2>";
+                    echo "<h1>" . $project['name'] . "</h1>";
                 ?>
             </div>
             <a href='process_logout.php'>log out</a>
@@ -97,7 +97,7 @@
             <div class = 'add-form-center'>
                 <form method="POST" action="insert_task.php" class="add-task-form">
                     <div class="form-element"><label for='task'>add task:</label></div>
-                    <input type="text" name="task">
+                    <input type="text" name="task" maxlength="100" required>
                     <?php 
                         echo  "<input type='hidden' name='project_id' value=".$project['project_id'].">"; 
                     ?>
@@ -110,73 +110,73 @@
                 /* ---------------------
                     print all items
                 ---------------------*/
-            /* loop through tasks */
-            while ($task = mysqli_fetch_assoc($all_tasks_result)) {
-                $task_id = $task['task_id']; // get the item id
-                $task_name = $task['task']; // get the task name 
-                
-                $task_status_id = $task['status_id']; // get the status id
-                $task_status = $task['status']; // get the status name 
-                
-                $is_done = $task['is_done']; // get the checkbox status
-                
-                /* test changing css based on status */
-                $status_color = "#fff";
-                /* if the status is ongoing --> change cell color */ 
-                if ($task_status_id == 0){
-                    $status_color = '#a5d7e8';
-                }
-                
-                /* if item is done --> check the checkbox */
-                $checked = ($is_done == 1) ? 'checked' : '';
-
-                /* Print each row of the table */
-                echo "<div class='table-row'>";
-                echo "<div class='row-item'><input type='checkbox' id='".$task_id."' $checked onclick='handleOnClick(this)'></div>"; // checkbox
-                echo "<div class='row-item task'>".$task_name."</div>"; // task
-
-                /* ---------------------
-                   status dropdown
-                ---------------------*/
-                
-                echo "<div class = 'row-item'>";
-                /* make a select list within the table */
-                echo "<select id='$task_id' onchange='handleOnChange(this)' style='background-color: ".$status_color."'>"; // on change --> run handleOnChange function
-                
-                /* the tasks status is the default/top option */
-                echo "<option value=''>".$task_status."</option>";
-
-                /* loop through the statuses */
-                while ($status = mysqli_fetch_array($all_status_result)) {
-                    $status_id = $status['status_id']; // get the status id
-                    $status_name = $status['status']; // get the status name 
-
-                    /* if the status is not the current tasks status 
-                     * --> display the status as an option in dropdown
-                     */
-                    if($task_status_id != $status_id) {
-                        echo "<option value='$status_id'>$status_name</option>";
+                /* loop through tasks */
+                while ($task = mysqli_fetch_assoc($all_tasks_result)) {
+                    $task_id = $task['task_id']; // get the item id
+                    $task_name = $task['task']; // get the task name 
+                    
+                    $task_status_id = $task['status_id']; // get the status id
+                    $task_status = $task['status']; // get the status name 
+                    
+                    $is_done = $task['is_done']; // get the checkbox status
+                    
+                    /* test changing css based on status */
+                    $status_color = "#fff";
+                    /* if the status is ongoing --> change cell color */ 
+                    if ($task_status_id == 0){
+                        $status_color = '#a5d7e8';
                     }
+                    
+                    /* if item is done --> check the checkbox */
+                    $checked = ($is_done == 1) ? 'checked' : '';
+
+                    /* Print each row of the table */
+                    echo "<div class='table-row'>";
+                    echo "<div class='row-item'><input type='checkbox' id='".$task_id."' $checked onclick='handleOnClick(this)'></div>"; // checkbox
+                    echo "<div class='row-item task'><p>".$task_name."</p></div>"; // task
+
+                    /* ---------------------
+                    status dropdown
+                    ---------------------*/
+                    
+                    echo "<div class = 'row-item'>";
+                    /* make a select list within the table */
+                    echo "<select id='$task_id' onchange='handleOnChange(this)' style='background-color: ".$status_color."'>"; // on change --> run handleOnChange function
+                    
+                    /* the tasks status is the default/top option */
+                    echo "<option value=''>".$task_status."</option>";
+
+                    /* loop through the statuses */
+                    while ($status = mysqli_fetch_array($all_status_result)) {
+                        $status_id = $status['status_id']; // get the status id
+                        $status_name = $status['status']; // get the status name 
+
+                        /* if the status is not the current tasks status 
+                        * --> display the status as an option in dropdown
+                        */
+                        if($task_status_id != $status_id) {
+                            echo "<option value='$status_id'>$status_name</option>";
+                        }
+                    }
+                    
+                    /* 
+                        reset the result pointer to allow the loop to run more than once 
+                        learnt this from Quentin on StackOverflow: 
+                        https://stackoverflow.com/questions/47435708/why-i-cant-display-same-result-twice-using-mysqli-fetch-assoc
+                    */
+                    $status = mysqli_data_seek($all_status_result, 0);
+                    
+                    /* close the dropdown */
+                    echo "</select></div>";
+
+                    /* delete task button */
+                    echo "<div class = 'row-item'><a href='delete_task.php?del_task=".$task_id."'>X</a></div>";
+                    echo "</div>";
+
                 }
-                
-                /* 
-                    reset the result pointer to allow the loop to run more than once 
-                    learnt this from Quentin on StackOverflow: 
-                    https://stackoverflow.com/questions/47435708/why-i-cant-display-same-result-twice-using-mysqli-fetch-assoc
-                */
-                $status = mysqli_data_seek($all_status_result, 0);
-                
-                /* close the dropdown */
-                echo "</select></div>";
-
-                /* delete task button */
-                echo "<div class = 'row-item'><a href='delete_task.php?del_task=".$task_id."'>X</a></div>";
-                echo "</div>";
-
-            }
             ?>
         </div>
-        </div>
         <!-- overview class? -->
+    </div>
     </body>
 </html>

@@ -1,21 +1,22 @@
 /* --------------------
    General Styles
    --------------------*/
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans&display=swap');
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
 
-p {
+p, a, label, ::placeholder, button, input, select {
+    font-family: 'Open Sans', sans-serif;
+    font-size: 16px;
     color: black;
 }
 
-a {
-    color: black;
-}
-
-::placeholder {
+h1 {
+    font-family: 'Open Sans', sans-serif;
+    font-size: 30px;
     color: black;
 }
 
@@ -23,7 +24,6 @@ input[type="text"]:focus,
 input[type="password"]:focus {
     outline: none;
 }
-
 /* --------------------
     Computer Screen
 -------------------- */

@@ -3,6 +3,9 @@
 
     /* connect to the database */
     include 'connection.php';
+
+    /* start a session */
+    session_start();
     
     /* check for duplicate username */
     function is_duplicate_username($username) {
@@ -26,13 +29,12 @@
     }
     
     /* check if the username and password are not empty */
-    if(!empty($_POST['username']) && !empty($_POST['password'])) {
+    if(isset($_POST['username']) && isset($_POST['password'])) {
         // get the username and password
-        $user = $_POST['username'];
-        $pass = $_POST['password'];
+        $user = trim($_POST['username']);
+        $pass = trim($_POST['password']);
 
         // if username is unique --> add to database
-
         if(!is_duplicate_username($user)) {
             /* encrypt the password */
             $encrypted_pass = password_hash($pass, PASSWORD_BCRYPT);
@@ -60,10 +62,6 @@
             exit;
 
         } else {
-            echo "<script>alert('username already exists');</script>";
+            $_SESSION['sign_up_error'] = 'username already exists. please choose another one';
         }
-
-    } else {
-        echo "<script>alert('please enter a username and password');</script>";
-    }
 ?>

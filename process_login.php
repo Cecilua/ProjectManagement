@@ -6,8 +6,7 @@
     include 'connection.php';
     
     /* check if the username and password are set and not empty */
-    
-    if(isset($_POST['username']) && isset($_POST['password']) && !empty($_POST['username']) && !empty($_POST['password'])){
+    if(isset($_POST['username']) && isset($_POST['password'])){
         /* get the inputted username and password */
         $user = trim($_POST['username']);
         $pass = trim($_POST['password']);
@@ -38,16 +37,16 @@
                     
                     header("Location: index.php");
                 } else {
-                    echo "incorrect username or password";
+                     $_SESSION['login_error'] = 'incorrect username or password';
+                     header("Location: login.php");
                 }
             } else {
-                echo "user not found";
+                $_SESSION['login_error'] = 'user not found';
                 header("Location: login.php");
             }
         } else {
-            echo "incorrect username or password";
+           $_SESSION['login_error'] = 'error...';
+           header("Location: login.php");
         }
-    } else {
-        echo "please enter a username and password";
-    }
+    } 
 ?>
