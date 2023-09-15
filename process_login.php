@@ -35,7 +35,12 @@
                     $_SESSION['user_id'] = $login_record['user_id'];
                     echo $login_record['user_id'];
                     
+                    /* clean up errors */
+                    $_SESSION['login_error'] = '';
+                    
+                    /* send to index */ 
                     header("Location: index.php");
+    
                 } else {
                      $_SESSION['login_error'] = 'incorrect username or password';
                      header("Location: login.php");

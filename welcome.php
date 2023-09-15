@@ -15,7 +15,7 @@
                 <h1>Welcome</h1>
                 <div class="welcome-menu">
                     <a href="login.php">login</a>
-                    <a href="signup.php">sign up</a>
+                    <a href="sign_up.php">sign up</a>
                 </div>
             </div>
         </div>

@@ -16,10 +16,10 @@
 		/* username query */ 
         $username_query = "SELECT * FROM User WHERE username = ?";
 
-        $username = $con->prepare($username_query);
-        $username->bind_param('i', $user_id);
-        $username->execute();
-        $username_result = $username->get_result();
+        $username_test = $con->prepare($username_query);
+        $username_test->bind_param('s', $username);
+        $username_test->execute();
+        $username_result = $username_test->get_result();
 
         if (mysqli_num_rows($username_result) > 0) {
             // If the username already exists, return true
@@ -67,13 +67,18 @@
             $add_project->bind_param('is', $get_user_record['user_id'], $project_name);
             $add_project->execute();
             $add_project_result = $add_project->get_result();
-
-            /* send to login page */
-            header('Location: login.php');
+            
+			/* clear errors */ 
+			$_SESSION['sign_up_error'] = '';
+			$_SESSION['login_error'] = '';
+            
+			/* send to login page */
+			header('Location: login.php');
             exit;
 
         } else {
             $_SESSION['sign_up_error'] = 'username already exists. please choose another one';
+            header("Location: sign_up.php");
         }
     }
 ?>
