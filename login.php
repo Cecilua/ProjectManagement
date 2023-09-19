@@ -1,4 +1,4 @@
-<DOCTYPE html>
+<!DOCTYPE html>
     <html lang="en">
     <?php    
         /* connect to database */
@@ -10,6 +10,7 @@
     <head>
         <title>CC's Cradle</title>
         <link href="style.css" rel="stylesheet" type="text/css" />
+        <link rel = "icon" sizes = "32x32" href = "img/favicon-32x32.png"/>
     </head>
     <body>
         <div class="background">
@@ -17,7 +18,9 @@
             <div class="screen">
                 <!-- Login Form -->
                 <div class="user-form">
-                    <div class="profile-picture"></div>
+                    <div class="profile-picture">
+                        <img src = "img/pfp.png" alt = "CC's Cradle's silly cat mascot">
+                    </div>
                     <h1>Login</h1>
                     <!-- display errors if there are any -->
                     <?php 

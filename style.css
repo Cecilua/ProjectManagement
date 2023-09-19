@@ -49,6 +49,7 @@
      display: flex;
      width: 20px;
      height: 20px;
+     border-radius: 50%;
      background-color: #201740;
  }
 
@@ -64,7 +65,7 @@
  }
 
  .screen h1 {
-    color: #C9D3F2
+     color: #C9D3F2
  }
 
  /* --------------------
@@ -88,7 +89,7 @@
      margin-bottom: 20px;
      background-color: #52428C;
      color: #C9D3F2;
-    border: solid 2px #201740;
+     border: solid 2px #201740;
  }
 
  .welcome-menu a:hover {
@@ -116,9 +117,9 @@
      border: solid 2px #201740;
  }
 
-.user-form h1 {
-    color: #C9D3F2;
-}
+ .user-form h1 {
+     color: #C9D3F2;
+ }
 
  .user-form label {
      background-color: #52428C;
@@ -147,8 +148,9 @@
      margin-top: 2.5%;
  }
 
- .user-form p, a {
-    color: #C9D3F2
+ .user-form p,
+ a {
+     color: #C9D3F2
  }
 
  /* --------------------
@@ -169,6 +171,12 @@
      padding-left: 2vh;
  }
 
+ .navbar img {
+     width: 10vh;
+     height: 10vh;
+     background-color: #52428C;
+ }
+
  .navbar a {
      display: flex;
      flex: 1;
@@ -183,7 +191,7 @@
 
 
  .navbar a:hover {
-     background-color: #EFF29B;
+     background-color: #C9D3F2;
  }
 
  /* --------------------
@@ -246,11 +254,11 @@
 
  .form-element {
      flex: 0.5;
-    color: #C9D3F2
+     color: #C9D3F2
  }
 
  .form-element label {
-    color: #C9D3F2;
+     color: #C9D3F2;
  }
 
  .form-element button {
@@ -258,6 +266,10 @@
      height: 3vh;
      border: 2px solid #201740;
      background-color: #B4A2F2;
+ }
+
+ .form-element button:hover {
+     cursor: pointer;
  }
 
  .add-task-form input[type="text"] {
@@ -271,17 +283,17 @@
  }
 
  .table-container {
-    display: flex;
-    flex-flow: column nowrap;
-    width: 80vw;
-    height: 70vh;
-    margin: 0 auto;
-    border: 2px solid #201740;
-    border-top: 0px;
-    border-bottom: 0px;
-    overflow: scroll;
-    background-color: #C9D3F2;
-}
+     display: flex;
+     flex-flow: column nowrap;
+     width: 80vw;
+     height: 70vh;
+     margin: 0 auto;
+     border: 2px solid #201740;
+     border-top: 0px;
+     border-bottom: 0px;
+     overflow: scroll;
+     background-color: #C9D3F2;
+ }
 
  .table-header {
      background-color: #ececec;

@@ -28,7 +28,7 @@
         $project = mysqli_fetch_assoc($all_projects_result); 
 
         /* all tasks query */ 
-        $all_tasks_query = "SELECT Task.*, Status.* FROM Task JOIN Status ON Status.status_id = Task.status_id WHERE Task.project_id = ?";
+        $all_tasks_query = "SELECT Task.*, Status.* FROM Task JOIN Status ON Status.status_id = Task.status_id WHERE Task.project_id = ? ORDER BY Task.status_id DESC";
 
         $all_tasks = $con->prepare($all_tasks_query);
         $all_tasks->bind_param('i', $project['project_id']);
@@ -42,6 +42,10 @@
     <head>
         <title>CC's Project Management Tool!!</title>
         <link href = "style.css" rel = "stylesheet" type = "text/css"/>
+        <link rel = "icon" sizes = "32x32" href = "img/favicon-32x32.png"/>
+        
+        <!-- import font awesome -->
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.1/css/all.css" crossorigin="anonymous">
 
         <!-- import Jquery -->
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
@@ -85,6 +89,7 @@
     <div class='main-background'>
         <!-- navbar -->
         <div class = "navbar">
+            <img src = 'img/logo.png'>
             <div class = "project-name">
                 <?php 
                     /* print project name */
@@ -97,11 +102,11 @@
             <div class = 'add-form-center'>
                 <form method="POST" action="insert_task.php" class="add-task-form">
                     <div class="form-element"><label for='task'>add task:</label></div>
-                    <input type="text" name="task" maxlength="100" required>
+                    <input type="text" name="task" maxlength="30" required>
                     <?php 
                         echo  "<input type='hidden' name='project_id' value=".$project['project_id'].">"; 
                     ?>
-                    <div class="form-element"><button type="submit">-></button></div>
+                    <div class="form-element"><button type="submit"><i class="fa fa-arrow-right" style="color: #201740;"></i></button></div>
                 </form>
             </div>
         <!-- open table -->
@@ -124,7 +129,11 @@
                     $status_color = "#fff";
                     /* if the status is ongoing --> change cell color */ 
                     if ($task_status_id == 0){
-                        $status_color = '#a5d7e8';
+                        $status_color = '#35C8B7';
+                    } else if ($task_status_id == 1){
+                        $status_color = '#6B8FFE';
+                    } else if ($task_status_id == 2){
+                        $status_color = '#E05FCD';
                     }
                     
                     /* if item is done --> check the checkbox */
@@ -170,7 +179,7 @@
                     echo "</select></div>";
 
                     /* delete task button */
-                    echo "<div class = 'row-item'><a href='delete_task.php?del_task=".$task_id."'>X</a></div>";
+                    echo "<div class = 'row-item'><a href='delete_task.php?del_task=".$task_id."'><i class='fa fa-times' style='color: #C9D3F2;'></i></a></div>";
                     echo "</div>";
 
                 }
