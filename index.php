@@ -1,39 +1,36 @@
 <!DOCTYPE html>
 <html lang='en'>
-    <?php
-        // start a session 
+    <?php       
+        /* start a session */
         session_start(); 
 
+        /* get session user_id */
         $user_id = $_SESSION['user_id'];
 
+        /* if user is not logged in send to welcome page */
         if(!isset($_SESSION['logged_in']) or $_SESSION['logged_in'] != true){
             header('Location: welcome.php');
         } 
        
-       /* connect to the database */
+        /* connect to the database */
         include 'connection.php';
 
-        /* ---------------------------------------------------------------------------------
-            learnt how to use prepared statements here: 
-            https://stackoverflow.com/questions/60174/how-can-i-prevent-sql-injection-in-php 
-        --------------------------------------------------------------------------------- */
-        
         /* all projects query */ 
         $all_projects_query = "SELECT Project.* FROM Project WHERE Project.user_id = ?";
 
-        $all_projects = $con->prepare($all_projects_query);
-        $all_projects->bind_param('i', $user_id);
-        $all_projects->execute();
-        $all_projects_result = $all_projects->get_result();
-        $project = mysqli_fetch_assoc($all_projects_result); 
+        $all_projects = $con->prepare($all_projects_query); // prepare query statement
+        $all_projects->bind_param('i', $user_id); // bind user_id to prepared statement
+        $all_projects->execute(); // execute query
+        $all_projects_result = $all_projects->get_result(); // get result
+        $project = mysqli_fetch_assoc($all_projects_result); // return results as associative array
 
         /* all tasks query */ 
         $all_tasks_query = "SELECT Task.*, Status.* FROM Task JOIN Status ON Status.status_id = Task.status_id WHERE Task.project_id = ? ORDER BY Task.status_id DESC";
 
-        $all_tasks = $con->prepare($all_tasks_query);
-        $all_tasks->bind_param('i', $project['project_id']);
-        $all_tasks->execute();
-        $all_tasks_result = $all_tasks->get_result();
+        $all_tasks = $con->prepare($all_tasks_query); // prepare query statement
+        $all_tasks->bind_param('i', $project['project_id']); // bind project_id to prepared statement
+        $all_tasks->execute(); // execute query
+        $all_tasks_result = $all_tasks->get_result(); // get result
 
         /* query all statuses */
         $all_status_query = "SELECT Status.* From Status";
@@ -49,47 +46,41 @@
 
         <!-- import Jquery -->
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
-        
         <script>
-            // function when checkbox is clicked
+            /* function when checkbox is clicked */
             function handleOnClick(cb) {
-                console.log(cb.id); // checkbox id == item_id
-                console.log(cb.checked); // if checkbox is checked
-
-                // if checkbox was checked --> checkded = 1; if checkbox was unchecked --> checkded = 0; 
+                /* if checkbox was checked --> checkded = 1; if checkbox was unchecked --> checkded = 0; */
                 if (cb.checked == true) {
                     checked = 1; 
                 } else {
                     checked = 0;
                 }
                 
-                // post to update_checkbox.php
+                /* post to update_checkbox.php */
                 $.post("update_checkbox.php", {is_done: checked, task_id: cb.id}, function(){
                     console.log("success");
-                    // refresh the page
-                    window.location.reload();
+                    window.location.reload(); // refresh the page
                 });
             }
 
+            /* function when select menu is changed */
             async function handleOnChange(sel) {
                 console.log(sel.id); // id of the select element == item_id
                 console.log(sel.value); // value of the option element == status_id
                 
-				// post to update_status.php
+				/* post to update_status.php */
                 $.post("update_status.php", {status_id: sel.value, task_id: sel.id}, function(){
                     console.log("success");
-					// refresh the page
-					window.location.reload();
+					window.location.reload(); // refresh the page
                 }); 
             }
-
         </script>
     </head>
     <body>
     <div class='main-background'>
         <!-- navbar -->
         <div class = "navbar">
-            <img src = 'img/logo.png'>
+            <img src = 'img/logo.png' alt = "CC's Cradle's silly cat mascot"> 
             <div class = "project-name">
                 <?php 
                     /* print project name */
@@ -125,9 +116,9 @@
                     
                     $is_done = $task['is_done']; // get the checkbox status
                     
-                    /* test changing css based on status */
-                    $status_color = "#fff";
-                    /* if the status is ongoing --> change cell color */ 
+                    /* change the css based on status */
+                    $status_color = "#fff"; // default status color
+                    /* based on status id, change to different colors */ 
                     if ($task_status_id == 0){
                         $status_color = '#35C8B7';
                     } else if ($task_status_id == 1){
@@ -145,7 +136,7 @@
                     echo "<div class='row-item task'><p>".$task_name."</p></div>"; // task
 
                     /* ---------------------
-                    status dropdown
+                        status dropdown
                     ---------------------*/
                     
                     echo "<div class = 'row-item'>";
@@ -160,19 +151,20 @@
                         $status_id = $status['status_id']; // get the status id
                         $status_name = $status['status']; // get the status name 
 
-                        /* if the status is not the current tasks status 
-                        * --> display the status as an option in dropdown
-                        */
+                        /* --------------------------------------------------
+                            if the status is not the current tasks status 
+                            --> display the status as an option in dropdown
+                        -------------------------------------------------- */
                         if($task_status_id != $status_id) {
                             echo "<option value='$status_id'>$status_name</option>";
                         }
                     }
                     
-                    /* 
+                    /* -------------------------------------------------------------------------------------------------------------
                         reset the result pointer to allow the loop to run more than once 
                         learnt this from Quentin on StackOverflow: 
                         https://stackoverflow.com/questions/47435708/why-i-cant-display-same-result-twice-using-mysqli-fetch-assoc
-                    */
+                    ------------------------------------------------------------------------------------------------------------- */
                     $status = mysqli_data_seek($all_status_result, 0);
                     
                     /* close the dropdown */
@@ -181,11 +173,9 @@
                     /* delete task button */
                     echo "<div class = 'row-item'><a href='delete_task.php?del_task=".$task_id."'><i class='fa fa-times' style='color: #C9D3F2;'></i></a></div>";
                     echo "</div>";
-
                 }
             ?>
         </div>
-        <!-- overview class? -->
     </div>
     </body>
 </html>

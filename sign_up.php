@@ -15,7 +15,6 @@
         <div class="background">
             <div class="webcam"></div>
             <div class="screen">
-                <!-- Sign-Up Form -->
                 <div class="user-form">
                     <div class="profile-picture">
                         <img src = "img/pfp.png" alt = "CC's Cradle's silly cat mascot">
@@ -27,18 +26,17 @@
                             echo "<p>".$_SESSION['sign_up_error']."</p>";
                         }
                     ?>
+                    <!-- Sign-Up Form -->
                     <form name="sign_up_form" id="sign_up_form" method="post" action="process_sign_up.php">
-                        <!-- do i need labels? -->
                         <label for='username'>username: </label>
-                        <input type="text" name="username" placeholder="username" maxlength="20" required><br>
-                    
+                        <input type="text" name="username" id="username" placeholder="username" maxlength="20" required><br>
                         <label for="password">password: </label>
-                        <input type="password" name="password" placeholder="password" maxlength="256" required><br>
-                    
+                        <input type="password" name="password" id="password" placeholder="password" maxlength="256" required><br>
                         <input type="submit" name="submit" id="submit" value="Sign Up">
                     </form>
+                    <!-- link to login page -->
                     <p>have an account? <a href="login.php">login here</a></p>
-                    <!-- add go back button in future? -->
+                    <!-- go back link -->
                     <a href="welcome.php">go back</a>
                 </div>
             </div>

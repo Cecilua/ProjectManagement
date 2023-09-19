@@ -1,5 +1,7 @@
 <?php
-    /* update a status in the database */
+    /* ------------------------------------
+        update a status in the database 
+    ------------------------------------ */
     
     /* connect to the database */
     include 'connection.php';
@@ -13,12 +15,10 @@
 		
         /* update status query */ 
         $update_status_query = "UPDATE Task SET status_id= ? WHERE task_id= ?";
-        $update_status = $con->prepare($update_status_query);
-        $update_status->bind_param('ii', $status_id, $task_id); // get the values from posted array
-        $update_status->execute();
-        $update_status_result = $update_status->get_result();
-    }
 
-    /* refresh the page */
-    //header('Location: index.php');
+        $update_status = $con->prepare($update_status_query); // prepare query statement 
+        $update_status->bind_param('ii', $status_id, $task_id); // bind values from posted array to prepared statement
+        $update_status->execute(); // execute query
+        $update_status_result = $update_status->get_result(); // return result
+    }
 ?>

@@ -1,389 +1,335 @@
- /* --------------------
-   General Styles
-   --------------------*/
- @import url('https://fonts.googleapis.com/css2?family=Open+Sans&display=swap');
+/* --------------------
+    General Styles
+--------------------*/
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans&display=swap');
 
- * {
-     margin: 0;
-     padding: 0;
-     box-sizing: border-box;
- }
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
 
- p,
- a,
- label,
- ::placeholder,
- button,
- input,
- select {
-     font-family: 'Open Sans', sans-serif;
-     font-size: 16px;
-     color: #201740;
- }
+p, 
+a,
+label,
+::placeholder,
+button,
+input,
+select {
+    font-family: 'Open Sans', sans-serif;
+    font-size: 16px;
+    color: #201740;
+}
 
- h1 {
-     font-family: 'Open Sans', sans-serif;
-     font-size: 30px;
-     color: #201740;
- }
+h1 {
+    font-family: 'Open Sans', sans-serif;
+    font-size: 30px;
+    color: #201740;
+}
 
- input[type="text"]:focus,
- input[type="password"]:focus {
-     outline: none;
- }
+input[type="text"]:focus,
+input[type="password"]:focus {
+    outline: none;
+}
 
- /* --------------------
+/* --------------------
     Computer Screen
 -------------------- */
- .background {
-     display: flex;
-     flex-direction: column;
-     justify-content: center;
-     align-items: center;
-     width: 100vw;
-     height: 100vh;
-     background-color: #B4A2F2;
- }
+.background {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100vw;
+    height: 100vh;
+    background-color: #B4A2F2;
+}
 
- .webcam {
-     display: flex;
-     width: 20px;
-     height: 20px;
-     border-radius: 50%;
-     background-color: #201740;
- }
+.webcam {
+    display: flex;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background-color: #201740;
+}
 
- .screen {
-     display: flex;
-     flex-direction: column;
-     justify-content: center;
-     align-items: center;
-     width: 80vw;
-     height: 80vh;
-     background-color: #201740;
-     margin: 2.5% 0;
- }
+.screen {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 80vw;
+    height: 80vh;
+    background-color: #201740;
+    margin: 2.5% 0;
+}
 
- .screen h1 {
-     color: #C9D3F2
- }
+.screen h1 {
+    color: #C9D3F2
+}
 
- /* --------------------
+/* --------------------
     Welcome Page
 -------------------- */
- .welcome-menu {
-     display: flex;
-     flex-direction: column;
-     justify-content: center;
-     align-items: center;
-     width: 30%;
-     height: 50%;
- }
+.welcome-menu {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 30%;
+    height: 50%;
+}
 
- .welcome-menu a {
-     display: flex;
-     justify-content: center;
-     align-items: center;
-     width: 100%;
-     height: 22%;
-     margin-bottom: 20px;
-     background-color: #52428C;
-     color: #C9D3F2;
-     border: solid 2px #201740;
- }
+.welcome-menu a {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 22%;
+    margin-bottom: 20px;
+    background-color: #52428C;
+    color: #C9D3F2;
+    border: solid 2px #201740;
+}
 
- .welcome-menu a:hover {
-     background-color: #B4A2F2;
-     color: #201740;
- }
+.welcome-menu a:hover {
+    background-color: #B4A2F2;
+    color: #201740;
+}
 
- /* --------------------
-   Login/Signup Page
+/* --------------------
+    Login/Signup Page
 -------------------- */
- .user-form {
-     display: flex;
-     flex-direction: column;
-     justify-content: center;
-     align-items: center;
-     text-align: center;
-     height: 80vh;
-     gap: 20px;
- }
+.user-form {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    height: 80vh;
+    gap: 20px;
+}
 
- .user-form .profile-picture {
-     width: 150px;
-     height: 150px;
-     background-color: #35C8B7;
-     border: solid 2px #201740;
- }
+.user-form .profile-picture {
+    width: 150px;
+    height: 150px;
+    background-color: #35C8B7;
+    border: solid 2px #201740;
+}
 
- .user-form h1 {
-     color: #C9D3F2;
- }
+.user-form h1 {
+    color: #C9D3F2;
+}
 
- .user-form label {
-     background-color: #52428C;
-     color: #C9D3F2;
-     padding: 10px;
-     border: solid 2px #201740;
- }
+.user-form label {
+    background-color: #52428C;
+    color: #C9D3F2;
+    padding: 10px;
+    border: solid 2px #201740;
+}
 
- .user-form input[type="text"],
- input[type="password"] {
-     width: 25vw;
-     height: 45px;
-     padding-left: 10px;
-     background-color: #C9D3F2;
-     border: solid 2px #201740;
-     color: #201740;
-     margin-bottom: 2.5%
- }
+.user-form input[type="text"],
+input[type="password"] {
+    width: 25vw;
+    height: 45px;
+    padding-left: 10px;
+    background-color: #C9D3F2;
+    border: solid 2px #201740;
+    color: #201740;
+    margin-bottom: 2.5%
+}
 
- .user-form input[type="submit"] {
-     width: 15vw;
-     height: 45px;
-     background-color: #52428C;
-     border: solid 2px #201740;
-     color: #C9D3F2;
-     margin-top: 2.5%;
- }
+.user-form input[type="submit"] {
+    width: 15vw;
+    height: 45px;
+    background-color: #52428C;
+    border: solid 2px #201740;
+    color: #C9D3F2;
+    margin-top: 2.5%;
+}
 
- .user-form p,
- a {
-     color: #C9D3F2
- }
+.user-form input[type="submit"]:hover {
+    cursor: pointer;
+}
 
- /* --------------------
-   navbar
+.user-form p,
+a {
+    color: #C9D3F2
+}
+
+/* --------------------
+    Navbar
 -------------------- */
- .navbar {
-     display: flex;
-     align-items: center;
-     justify-content: center;
-     width: 100vw;
-     height: 10vh;
-     margin-bottom: 20px;
-     background-color: #B4A2F2;
- }
+.navbar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100vw;
+    height: 10vh;
+    margin-bottom: 20px;
+    background-color: #B4A2F2;
+}
 
- .navbar .project-name {
-     flex: 2;
-     padding-left: 2vh;
- }
+.navbar .project-name {
+    flex: 2;
+    padding-left: 2vh;
+}
 
- .navbar img {
-     width: 10vh;
-     height: 10vh;
-     background-color: #52428C;
- }
+.navbar img {
+    width: 10vh;
+    height: 10vh;
+    background-color: #52428C;
+}
 
- .navbar a {
-     display: flex;
-     flex: 1;
-     justify-content: center;
-     align-items: center;
-     text-align: center;
+.navbar a {
+    display: flex;
+    flex: 1;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
 
-     color: #201740;
-     height: 100%;
-     width: 100%;
- }
+    color: #201740;
+    height: 100%;
+    width: 100%;
+}
 
+.navbar a:hover {
+    background-color: #C9D3F2;
+}
 
- .navbar a:hover {
-     background-color: #C9D3F2;
- }
-
- /* --------------------
-  Main / Index Page
+/* --------------------
+    Index Page
 -------------------- */
- .main {
-     display: flex;
-     flex-direction: row;
-     justify-content: center;
-     align-items: center;
- }
+.main {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
 
- .main-background {
-     z-index: 0;
-     width: 100vw;
-     height: 100vh;
-     background-color: #201740;
- }
+.main-background {
+    z-index: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: #201740;
+}
 
- .project-list {
-     /* not in use */
-     display: flex;
-     flex-direction: column;
-     border: solid 1px blue;
-     width: 50vw;
-     height: 90vh;
- }
+/* ---------------------
+    Table styles
+---------------------*/
+/* adapted from: https://codepen.io/tsnkff/pen/MPqPyJ */
 
- .overview {
-     /* not in use */
-     display: flex;
-     flex-direction: column;
-     width: 50vw;
-     height: 90vh;
-     border: solid 1px blue;
- }
+.add-form-center {
+    display: flex;
+    flex-flow: row;
+    justify-content: center;
+}
 
- /* ---------------------
-   Table styles
-   ---------------------*/
- /* adapted from: https://codepen.io/tsnkff/pen/MPqPyJ */
+.add-task-form {
+    display: flex;
+    flex-flow: row;
+    justify-content: center space-between;
+    align-items: center;
+    text-align: center;
+    width: 80vw;
+    height: 7vh;
+    border: 2px solid #201740;
+    background-color: #52428C;
+}
 
- .add-form-center {
-     display: flex;
-     flex-flow: row;
-     justify-content: center;
- }
+.form-element {
+    flex: 0.5;
+    color: #C9D3F2
+}
 
- .add-task-form {
-     display: flex;
-     flex-flow: row;
-     justify-content: center space-between;
-     align-items: center;
-     text-align: center;
-     width: 80vw;
-     height: 7vh;
-     border: 2px solid #201740;
-     background-color: #52428C;
- }
+.form-element label {
+    color: #C9D3F2;
+}
 
- .form-element {
-     flex: 0.5;
-     color: #C9D3F2
- }
+.form-element button {
+    width: 80%;
+    height: 3vh;
+    border: 2px solid #201740;
+    background-color: #B4A2F2;
+}
 
- .form-element label {
-     color: #C9D3F2;
- }
+.form-element button:hover {
+    cursor: pointer;
+}
 
- .form-element button {
-     width: 80%;
-     height: 3vh;
-     border: 2px solid #201740;
-     background-color: #B4A2F2;
- }
+.add-task-form input[type="text"] {
+    flex: 2;
+    height: 80%;
+    margin: 0px 10px;
+    border: none;
+    border-bottom: 2px solid #C9D3F2;
+    background-color: #52428C;
+    color: #C9D3F2;
+}
 
- .form-element button:hover {
-     cursor: pointer;
- }
+.table-container {
+    display: flex;
+    flex-flow: column nowrap;
+    width: 80vw;
+    height: calc(83vh - 40px);
+    margin: 0 auto;
+    border: 2px solid #201740;
+    border-top: 0px;
+    border-bottom: 0px;
+    overflow: scroll;
+    background-color: #C9D3F2;
+}
 
- .add-task-form input[type="text"] {
-     flex: 2;
-     height: 80%;
-     margin: 0px 10px;
-     border: none;
-     border-bottom: 2px solid #C9D3F2;
-     background-color: #52428C;
-     color: #C9D3F2;
- }
+.table-header {
+    background-color: #ececec;
+    color: #3e3e3e;
+    font-weight: bold;
+}
 
- .table-container {
-     display: flex;
-     flex-flow: column nowrap;
-     width: 80vw;
-     height: 70vh;
-     margin: 0 auto;
-     border: 2px solid #201740;
-     border-top: 0px;
-     border-bottom: 0px;
-     overflow: scroll;
-     background-color: #C9D3F2;
- }
+.table-row {
+    display: flex;
+    flex-flow: row nowrap;
+    width: 100%;
+    border-bottom: 2px solid #201740;
+    background-color: #C9D3F2;
+}
 
- .table-header {
-     background-color: #ececec;
-     color: #3e3e3e;
-     font-weight: bold;
- }
+.row-item {
+    display: flex;
+    flex: 1;
+    font-size: 14px;
+    padding: 8px 0;
+    justify-content: center;
+    align-items: center;
+    transition: all 0.15s ease-in-out;
+}
 
- .table-row {
-     display: flex;
-     flex-flow: row nowrap;
-     width: 100%;
-     border-bottom: 2px solid #201740;
-     background-color: #C9D3F2;
- }
+.row-item select {
+    width: 90%;
+    border: 2px solid #201740;
+}
 
- .row-item {
-     display: flex;
-     flex: 1;
-     font-size: 14px;
-     padding: 8px 0;
-     justify-content: center;
-     align-items: center;
-     transition: all 0.15s ease-in-out;
- }
+.row-item a {
+    width: 50%;
+    height: 100%;
+    padding: 0.5vh 0;
+    background-color: #52428C;
+    text-decoration: none;
+    text-align: center;
+    border: 2px solid #201740;
+    color: #C9D3F2;
+}
 
- .row-item select {
-     width: 90%;
-     border: 2px solid #201740;
- }
+.checkbox {
+    flex: 0.5 !important;
+}
 
- .row-item a {
-     width: 50%;
-     height: 100%;
-     padding: 0.5vh 0;
-     background-color: #52428C;
-     text-decoration: none;
-     text-align: center;
-     border: 2px solid #201740;
-     color: #C9D3F2;
- }
+.row-item input[type="checkbox"] {
+    width: 20px;
+    height: 20px;
+    box-shadow: inset 0px 0px 0px 2px #201740;
+}
 
- .checkbox {
-     flex: 0.5 !important;
- }
-
- .row-item input[type="checkbox"] {
-     width: 20px;
-     height: 20px;
-     box-shadow: inset 0px 0px 0px 2px #201740;
- }
-
- .task {
-     flex: 2 !important;
- }
-
- /* ---------------------
-   Projects Page
-   ---------------------*/
- .projects {
-     max-width: 100vw;
-     margin: auto;
-     display: flex;
-     flex-flow: row wrap;
-     justify-content: flex-start center;
-     padding: 4vw;
-     padding-right: 0px;
-     gap: 4vw;
-     border: solid 1px red;
- }
-
- .project {
-     display: flex;
-     flex-basis: calc(25% - 4vw);
-     width: 150px;
-     height: 150px;
-     flex-direction: column;
-     align-items: center;
-     justify-content: center;
-     border: 1px solid blue;
- }
-
- .project-img {
-     width: 125px;
-     height: 75px;
-     background-color: red;
- }
-
- .add-project-img {
-     width: 100px;
-     height: 100px;
-     margin: 0 12.5px;
-     background-color: pink;
- }
+.task {
+    flex: 2 !important;
+}
