@@ -15,6 +15,11 @@
         /* connect to the database */
         include 'connection.php';
 
+        /* -------------------------------------------------------------------------------------
+            learnt how top use prepared statements here: 
+            https://stackoverflow.com/questions/60174/how-can-i-prevent-sql-injection-in-php 
+        ------------------------------------------------------------------------------------- */
+        
         /* all projects query */ 
         $all_projects_query = "SELECT Project.* FROM Project WHERE Project.user_id = ?";
 
@@ -39,13 +44,16 @@
     <head>
         <title>CC's Project Management Tool!!</title>
         <link href = "style.css" rel = "stylesheet" type = "text/css"/>
+        <!-- favicom created with https://favicon.io/favicon-converter/ -->
         <link rel = "icon" sizes = "32x32" href = "img/favicon-32x32.png"/>
         
         <!-- import font awesome -->
+        <!-- source: https://fontawesome.com/v4/icons/ -->
         <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.1/css/all.css" crossorigin="anonymous">
 
         <!-- import Jquery -->
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+        <script src="utils.js"></script>
         <script>
             /* function when checkbox is clicked */
             function handleOnClick(cb) {
@@ -56,6 +64,7 @@
                     checked = 0;
                 }
                 
+                /* learnt about Jquery post method here: https://www.w3schools.com/jquery/jquery_ajax_get_post.asp */
                 /* post to update_checkbox.php */
                 $.post("update_checkbox.php", {is_done: checked, task_id: cb.id}, function(){
                     console.log("success");
@@ -64,7 +73,7 @@
             }
 
             /* function when select menu is changed */
-            async function handleOnChange(sel) {
+            function handleOnChange(sel) {
                 console.log(sel.id); // id of the select element == item_id
                 console.log(sel.value); // value of the option element == status_id
                 
@@ -80,7 +89,7 @@
     <div class='main-background'>
         <!-- navbar -->
         <div class = "navbar">
-            <img src = 'img/logo.png' alt = "CC's Cradle's silly cat mascot"> 
+            <img src = 'img/logo.png' alt = "CC's Cradle's silly cat mascot" onclick="message()"> 
             <div class = "project-name">
                 <?php 
                     /* print project name */
@@ -93,6 +102,7 @@
             <div class = 'add-form-center'>
                 <form method="POST" action="insert_task.php" class="add-task-form">
                     <div class="form-element"><label for='task'>add task:</label></div>
+                    <!-- learnt automatic HTML form validation  here: https://www.w3schools.com/js/js_validation.asp -->
                     <input type="text" name="task" maxlength="30" required>
                     <?php 
                         echo  "<input type='hidden' name='project_id' value=".$project['project_id'].">"; 
@@ -131,6 +141,10 @@
                     $checked = ($is_done == 1) ? 'checked' : '';
 
                     /* Print each row of the table */
+                    /* -----------------------------------------------------------------------------------------------
+                        learnt about onchange and onclick events from roapp on stackoverflow: 
+                        https://stackoverflow.com/questions/7231157/how-to-submit-form-on-change-of-dropdown-list
+                    ----------------------------------------------------------------------------------------------- */ 
                     echo "<div class='table-row'>";
                     echo "<div class='row-item'><input type='checkbox' id='".$task_id."' $checked onclick='handleOnClick(this)'></div>"; // checkbox
                     echo "<div class='row-item task'><p>".$task_name."</p></div>"; // task

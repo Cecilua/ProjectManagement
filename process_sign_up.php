@@ -22,7 +22,7 @@
         $username_test->execute(); // execute query
         $username_result = $username_test->get_result(); // get result
 
-        if (mysqli_num_rows($username_result) > 0) {
+        if (mysqli_num_rows($username_result) > 0) { // learnt about mysqli_num_rows method through ChatGPT
             /* if the username already exists, return true */
             return true;
         }
@@ -38,7 +38,7 @@
         $pass = trim($_POST['password']);
 
         /* if username is unique --> add to database */
-        if(!is_duplicate_username($user)) {
+        if(!is_duplicate_username($user)) { 
             /* encrypt the password */
             $encrypted_pass = password_hash($pass, PASSWORD_BCRYPT);
             

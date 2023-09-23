@@ -11,14 +11,15 @@
         <title>CC's Cradle</title>
         <link href="style.css" rel="stylesheet" type="text/css" />
         <link rel = "icon" sizes = "32x32" href = "img/favicon-32x32.png"/>
+        <script src="utils.js"></script>
     </head>
     <body>
         <div class="background">
-            <div class="webcam"></div>
+            <div class="webcam" onclick="easter_egg()"></div>
             <div class="screen">
                 <div class="user-form">
                     <div class="profile-picture">
-                        <img src = "img/pfp.png" alt = "CC's Cradle's silly cat mascot">
+                        <img src = "img/pfp.png" alt = "CC's Cradle's silly cat mascot" onclick="meow()">
                     </div>
                     <h1>Login</h1>
                     <!-- display errors if there are any -->

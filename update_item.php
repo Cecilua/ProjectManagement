@@ -1,5 +1,7 @@
 <?php
-    /* update an item in the database */
+    /* -------------------------------------
+        update an item in the database 
+    ------------------------------------- */
     
     /* connect to the database */
     include 'connection.php';
